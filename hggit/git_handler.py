@@ -663,6 +663,8 @@ class GitHandler(object):
 
     def export_hg_tags(self):
         for tag, sha in self.repo.tags().iteritems():
+            # git doesn't like spaces in tag names
+            tag = tag.replace(" ", "_")
             if self.repo.tagtype(tag) in ('global', 'git'):
                 self.git.refs['refs/tags/' + tag] = self.map_git_get(hex(sha))
                 self.tags[tag] = hex(sha)
